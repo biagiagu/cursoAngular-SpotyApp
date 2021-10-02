@@ -1,51 +1,40 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { getQueryPredicate } from '@angular/compiler/src/render3/view/util';
 import { Injectable } from '@angular/core';
 
+import { map } from 'rxjs/operators';
+
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class SpotifyService {
+	constructor(private http: HttpClient) {
+		console.log('Spotify Service Listo')
+	}
 
-  constructor(private http:HttpClient) { 
-    console.log('Spotify Service Listo')
+	// getSpotifyToken() {
+	// 	const body: any = {
+	// 		'grant_type': 'client_credentials',
+	// 		'idClient': '7e7034426bdc4b81abb19d1c95701441',
+	// 		'idSecret': '9fe0933f0c9b487e93d1b35b15d4204f'
 
-  }
+	// 	}
+	// 	this.http.post('https://accounts.spotify.com/api/token', { body }).subscribe(data => { console.log(data) })
+	// }
 
-  getSpotifyToken(){
-    
-    
-    const body : any = {
-      'grant_type':'client_credentials',
-      'idClient' :  '7e7034426bdc4b81abb19d1c95701441',
-      'idSecret' :  '9fe0933f0c9b487e93d1b35b15d4204f'
-      
-     }
-    
+	getQuery(query: string) {
+		const url = `https://api.spotify.com/v1/${query}`;
+		const headers = new HttpHeaders({
+			'Authorization': 'Bearer BQB6Va7NGN8-O6gV2Hb_2nMnuu5ShXwVIPiqJ-IjNnJXPSU32ARJFMQTaWaRZ38EMnK4Dbzink-HvbAOraI'
+		})
+		return this.http.get(url,{headers});
+	}
 
-    this.http.post('https://accounts.spotify.com/api/token', {body} ).subscribe(data =>{ console.log(data)})
+	getNewReleases() {
+		return this.getQuery('browse/new-releases?limit=20').pipe(map((data:any) => data['albums'].items));
+	}
 
-  }
-
-  getNewReleases(){
-
-    this.getSpotifyToken()
-    //console.log(token);
-
-    const headers= new HttpHeaders({
-      'Authorization': 'Bearer BQD5SdgswWxyddXXDn-hflnwYt-O0CR9LDlgdcUcMYwl9OI31a0lPnj_54smYF1_34Amd7fhlfsOPxjlPxc'
-    })
-
-    return this.http.get('https://api.spotify.com/v1/browse/new-releases',{headers});
-
-  }
-
-  getArtista( termino:string ){
-
-    const headers= new HttpHeaders({
-      'Authorization': 'Bearer BQD5SdgswWxyddXXDn-hflnwYt-O0CR9LDlgdcUcMYwl9OI31a0lPnj_54smYF1_34Amd7fhlfsOPxjlPxc'
-    })
-
-    return this.http.get(`https://api.spotify.com/v1/search?q=${termino}&type=artist&limit=15`,{headers});
-
-  }
+	getArtista(termino: string) {
+		return this.getQuery(`search?q=${termino}&type=artist&limit=15`).pipe(map((data: any) => data['artists'].items));
+	}
 }
