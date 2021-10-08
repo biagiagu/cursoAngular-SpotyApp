@@ -36,7 +36,8 @@
                     <th>{{cancion.album.name}}</th>
                     <th>{{cancion.name}}</th>
                     <th>
-                        <audio *ngIf="cancion.preview_url" [src]="cancion.preview_url" controls></audio>
+                        <!-- <audio *ngIf="cancion.preview_url" [src]="cancion.preview_url" controls></audio> -->
+                        <iframe [src]="cancion.uri | domseguro:'https://open.spotify.com/embed?uri='" width="350" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                     </th>
                 </tr>
             </tbody>

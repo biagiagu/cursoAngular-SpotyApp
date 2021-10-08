@@ -10,11 +10,13 @@ import { SearchComponent } from './components/search/search.component';
 import { ArtistaComponent } from './components/artista/artista.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 
-//Importar Rotas
+//Importar Rutas
 import { routes } from './app.routes';
 
 //Pipes
 import { NoimagePipe } from './pipes/noimage.pipe';
+import { DomseguroPipe } from "./pipes/domseguro.pipe";
+
 import { TarjetasComponent } from './components/shared/tarjetas/tarjetas.component';
 import { LoadingComponent } from './components/shared/loading/loading.component';
 
@@ -27,6 +29,7 @@ import { LoadingComponent } from './components/shared/loading/loading.component'
     ArtistaComponent,
     NavbarComponent,
     NoimagePipe,
+    DomseguroPipe,
     TarjetasComponent,
     LoadingComponent
   ],
